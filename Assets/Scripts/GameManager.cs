@@ -35,6 +35,7 @@ public class GameManager : MonoBehaviour
     // Start is called before the first frame update
     void Start()
     {
+        LoadName();
         SetGameInactive();
         spawnManager = GameObject.Find("Spawn Manager").GetComponent<SpawnManager>(); //finds the game object spawn manager
         audioManager = GameObject.Find("Audio Manager").GetComponent<AudioManager>();
@@ -81,13 +82,18 @@ public class GameManager : MonoBehaviour
 
     public void StartGame() //triggers the game start sequence, turning off the title screen, turning on the score counter and spawning animals
     {
+        
         SetGameActive();
         titleScreen.gameObject.SetActive(false);
         gameScreen.gameObject.SetActive(true);
         playerController.MakePlayerAppear();
         playerName = playerNameInput.text; //sets the player name from whatever is inside the input field
-        highScoreText.text = playerName;
-        scoreText.text = "Score: " + score;
+        if (playerNameInput.text != null)
+        {
+            SaveName();
+            highScoreText.text = "Current Player: " + playerName;
+            scoreText.text = "Score: " + score;
+        }
         StartCoroutine(spawnManager.SpawnAnimals());
     }
 
@@ -101,10 +107,10 @@ public class GameManager : MonoBehaviour
         isGameActive = false;
     }
 
-    public void OnButtonClick()
+    public void OnButtonClick() //debug tool
     {
         Debug.Log("Button clicked!");
-    } //debug tool
+    } 
 
     [System.Serializable] //required to transform the following data to the JSON format
     class SaveData //a simple class that saves user data
