@@ -21,6 +21,7 @@ public class GameManager : MonoBehaviour
     private SpawnManager spawnManager;
     public AudioManager audioManager;
     public PlayerController playerController; //set in Editor
+    public static GameManager instance; //the static keyword means that the value stored here (the Game Manager Objet) will be shared by all other instances of this class. Chances are I don't need to do this as I'm not managing data between scenes.
 
     //game management variables
     public bool isGameActive;
@@ -33,6 +34,20 @@ public class GameManager : MonoBehaviour
         spawnManager = GameObject.Find("Spawn Manager").GetComponent<SpawnManager>(); //finds the game object spawn manager
         audioManager = GameObject.Find("Audio Manager").GetComponent<AudioManager>();
     }
+
+    //Awake is called when the object is created
+    private void Awake() 
+    {
+        //this is a singletone pattern that enables only 1 instance of the game manager to be kept throughout the game
+        if (instance != null)
+        {
+            Destroy(gameObject);
+            return;
+        }
+        instance = this; //stores the current instance of GameManger as the instance variable. I can get a link to this instance of the game object and I DON'T HAVE TO get a reference to it as I do above ^
+        DontDestroyOnLoad(gameObject); //Makes this object not get destroyed when the scene loads
+    }
+
 
     // Update is called once per frame
     void Update()
