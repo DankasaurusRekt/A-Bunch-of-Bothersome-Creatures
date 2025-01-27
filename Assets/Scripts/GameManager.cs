@@ -4,6 +4,7 @@ using UnityEngine;
 using UnityEngine.SceneManagement;//allows us to use Scene Management features
 using TMPro; //allows us to use TMPro features
 using UnityEngine.UI; //lets us interact with buttons
+using System.IO; //lets us use JSON and save data functionality
 
 public class GameManager : MonoBehaviour
 {
@@ -25,7 +26,6 @@ public class GameManager : MonoBehaviour
 
     //game management variables
     public bool isGameActive;
-
 
     // Start is called before the first frame update
     void Start()
@@ -98,4 +98,20 @@ public class GameManager : MonoBehaviour
     {
         Debug.Log("Button clicked!");
     } //debug tool
+
+    [System.Serializable] //required to transform the following data to the JSON format
+    class SaveData //a simple class that saves user data
+    {
+        public string name; //public variable used to store the player name
+    }
+
+    public void SaveName()
+    {
+        SaveData data = new SaveData(); //created a new instance of the SaveData class
+        data.name = name; //fills the name class member with the name variable saved in Game Manager
+
+        string json = JsonUtility.ToJson(data); //transforms this instance to JSON
+
+        File.WriteAllText(Application.persistentDataPath + "/savefile.json", json); //writes the string to the data file
+    }
 }
