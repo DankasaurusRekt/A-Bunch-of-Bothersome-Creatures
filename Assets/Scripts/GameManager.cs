@@ -88,12 +88,10 @@ public class GameManager : MonoBehaviour
         gameScreen.gameObject.SetActive(true);
         playerController.MakePlayerAppear();
         playerName = playerNameInput.text; //sets the player name from whatever is inside the input field
-        if (playerNameInput.text != null)
-        {
-            SaveName();
-            highScoreText.text = "Current Player: " + playerName;
-            scoreText.text = "Score: " + score;
-        }
+        SaveName();
+        highScoreText.text = "Current Player: " + playerName;
+        scoreText.text = "Score: " + score;
+        
         StartCoroutine(spawnManager.SpawnAnimals());
     }
 
@@ -121,8 +119,8 @@ public class GameManager : MonoBehaviour
 
     public void SaveName()
     {
-        SaveData data = new SaveData(); //created a new instance of the SaveData class
-        data.name = name; //fills the name class member with the name variable saved in Game Manager
+        SaveData data = new SaveData { name = playerNameInput.text}; //created a new instance of the SaveData class
+        //data.name = name; //fills the name class member with the name variable saved in Game Manager
 
         string json = JsonUtility.ToJson(data); //transforms this instance to JSON
 
@@ -138,7 +136,7 @@ public class GameManager : MonoBehaviour
             string json = File.ReadAllText(path); //create a new string using ReadAllText, which reads the content of the JSON
             SaveData data = JsonUtility.FromJson<SaveData>(json); //puts all the save data back in to the SaveData instance
 
-            name = data.name; //sets the name in the SaveData to be name
+            playerNameInput.text = data.name; //sets the name in the SaveData to be name
         }
     }
 }
