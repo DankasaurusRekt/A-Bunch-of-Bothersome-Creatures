@@ -13,7 +13,8 @@ public class GameManager : MonoBehaviour
     public TextMeshProUGUI scoreText; //creates a UI variable which we can use to display the score
     public TextMeshProUGUI gameOverText; //creates a UI variable which we can use to display game over
     public TextMeshProUGUI highScoreText; //creates a UI variable which we can use to display the high score
-    public TextMeshProUGUI playerName; //creates a UI variable which we can use to display the player name
+    public TMP_InputField playerNameInput; //creates an InputField variable
+    public string playerName; //creates a string variable which we can use to display the player name
     public GameObject titleScreen;
     public GameObject gameScreen;
     public UnityEngine.UI.Button restartButton; //creates a UI variable for the button
@@ -84,8 +85,9 @@ public class GameManager : MonoBehaviour
         titleScreen.gameObject.SetActive(false);
         gameScreen.gameObject.SetActive(true);
         playerController.MakePlayerAppear();
+        playerName = playerNameInput.text; //sets the player name from whatever is inside the input field
+        highScoreText.text = playerName;
         scoreText.text = "Score: " + score;
-        scoreText.gameObject.SetActive(true);
         StartCoroutine(spawnManager.SpawnAnimals());
     }
 
