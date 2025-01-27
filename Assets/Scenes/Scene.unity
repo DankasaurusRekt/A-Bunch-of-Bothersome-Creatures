@@ -610,7 +610,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   scoreText: {fileID: 19248016}
   gameOverText: {fileID: 2043001021}
-  highScoreText: {fileID: 1289196761}
+  highScoreText: {fileID: 89418551}
   playerNameInput: {fileID: 1003617343}
   playerName: 
   titleScreen: {fileID: 1975612440}
